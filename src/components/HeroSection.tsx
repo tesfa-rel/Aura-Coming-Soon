@@ -5,6 +5,42 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Leaf, ArrowDown } from "lucide-react";
 
+function OpeningSoonBadge() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const badge = (
+    <>
+      <motion.div
+        animate={{ rotate: [0, 15, -15, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Leaf className="h-5 w-5" />
+      </motion.div>
+      <span>Studio Opening Soon</span>
+    </>
+  );
+
+  if (!mounted) {
+    return (
+      <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-base font-semibold text-primary shadow-sm">
+        <Leaf className="h-5 w-5" />
+        <span>Studio Opening Soon</span>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      animate={{ scale: [1, 1.05, 1] }}
+      transition={{ duration: 1.03, repeat: Infinity, ease: "easeInOut" }}
+      className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-base font-semibold text-primary shadow-sm"
+    >
+      {badge}
+    </motion.div>
+  );
+}
+
 function CountdownTimer() {
   const [target] = useState(() => Date.now() + 14 * 24 * 60 * 60 * 1000);
   const [timeLeft, setTimeLeft] = useState(() => {
@@ -78,23 +114,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex flex-col items-center gap-6"
         >
-          <motion.div
-            initial={mounted ? { scale: 0.8, opacity: 0 } : false}
-            animate={{ scale: [1, 1.08, 1], opacity: 1 }}
-            transition={{
-              scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
-              opacity: { duration: 0.6, ease: "easeOut" },
-            }}
-            className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-base font-semibold text-primary shadow-sm"
-          >
-            <motion.div
-              animate={{ rotate: [0, 15, -15, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <Leaf className="h-5 w-5" />
-            </motion.div>
-            <span>Studio Opening Soon</span>
-          </motion.div>
+          <OpeningSoonBadge />
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
             Find Your{" "}
